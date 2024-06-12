@@ -1,0 +1,44 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon Product Scraper</title>
+</head>
+
+<body>
+  <h1>Amazon Product Scraper</h1>
+  <form id="urlForm">
+    <label for="url">Enter Amazon Product URL:</label><br>
+    <input type="text" id="url" name="url" placeholder="https://www.amazon.com/dp/...">
+    <button type="submit">Scrape Product Data</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    document.getElementById("urlForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      const url = document.getElementById("url").value.trim();
+      if (url) {
+        fetch(`/scrape-amazon-product?url=${encodeURIComponent(url)}`)
+          .then(response => response.json())
+          .then(data => {
+            document.getElementById("result").innerHTML = `
+                            <h2>Product Data</h2>
+                            <p>Title: ${data.title}</p>
+                            <p>Price: ${data.price}</p>
+                        `;
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            document.getElementById("result").innerHTML = "<p>Error scraping product data</p>";
+          });
+      } else {
+        document.getElementById("result").innerHTML = "<p>Please enter a valid URL</p>";
+      }
+    });
+  </script>
+</body>
+
+</html>
