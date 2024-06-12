@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Amazon Product Scraper</title>
+  <title>Product Scraper</title>
 </head>
 
 <body>
-  <h1>Amazon Product Scraper</h1>
+  <h1>Product Scraper</h1>
+  <h3>Supported stores:</h3>
+  <p>amazon, jumia</p>
   <form id="urlForm">
-    <label for="url">Enter Amazon Product URL:</label><br>
+    <label for="url">Enter Product URL:</label><br>
     <input type="text" id="url" name="url" placeholder="https://www.amazon.com/dp/...">
-    <button type="submit">Scrape Product Data</button>
+    <button type="submit">Scrape</button>
   </form>
 
   <div id="result"></div>
@@ -21,11 +23,12 @@
       event.preventDefault();
       const url = document.getElementById("url").value.trim();
       if (url) {
-        fetch(`/scrape-amazon-product?url=${encodeURIComponent(url)}`)
+        fetch(`/scrape-product?url=${encodeURIComponent(url)}`)
           .then(response => response.json())
           .then(data => {
             document.getElementById("result").innerHTML = `
                             <h2>Product Data</h2>
+                            <p>Store: ${data.store}</p>
                             <p>Title: ${data.title}</p>
                             <p>Price: ${data.price}</p>
                         `;
